@@ -1,0 +1,937 @@
++ echo 'Beginning trial 06 of 10'
+Beginning trial 06 of 10
++ echo ':::DLPAL dockerd://mlperf-dell:language_model 131 2 xe9680node[30,70] '\''unknown'\'' XE9680_2x8x48x1_pack'
+:::DLPAL dockerd://mlperf-dell:language_model 131 2 xe9680node[30,70] 'unknown' XE9680_2x8x48x1_pack
++ '[' 1 -eq 1 ']'
++ srun --ntasks=2 bash -c 'echo -n '\''Clearing cache on '\'' && hostname && sync && sudo /sbin/sysctl vm.drop_caches=3'
+Clearing cache on xe9680node70
+Clearing cache on xe9680node30
+vm.drop_caches = 3
+vm.drop_caches = 3
++ srun --ntasks=2 --container-name=language_model_131 python -c '
+from mlperf_logger import mllogger
+mllogger.event(key=mllogger.constants.CACHE_CLEAR, value=True)'
+:::MLLOG {"namespace": "", "time_ms": 1696545288970, "event_type": "POINT_IN_TIME", "key": "cache_clear", "value": true, "metadata": {"file": "<string>", "lineno": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696545289060, "event_type": "POINT_IN_TIME", "key": "cache_clear", "value": true, "metadata": {"file": "<string>", "lineno": 3}}
++ srun -l --mpi=pmix --ntasks=16 --ntasks-per-node=8 --container-name=language_model_131 --container-mounts=/xe9680_nvme1n1/training_datasets_v3.0/bert/packed_data:/workspace/data_phase2,/xe9680_nvme1n1/training_datasets_v3.0/bert/phase1:/workspace/phase1,/xe9680_nvme1n1/training_datasets_v3.0/bert/hdf5/eval_varlength:/workspace/evaldata,/root/mlperf_training/bert:/results --container-workdir=/workspace/bert slurm2pytorch ./run_and_time.sh
+14: Run vars: id 131 gpus 8 mparams ''
+12: Run vars: id 131 gpus 8 mparams ''
+ 8: Run vars: id 131 gpus 8 mparams ''
+10: Run vars: id 131 gpus 8 mparams ''
+15: Run vars: id 131 gpus 8 mparams ''
+ 9: Run vars: id 131 gpus 8 mparams ''
+14: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 8: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+10: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+12: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+15: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 9: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+13: Run vars: id 131 gpus 8 mparams ''
+11: Run vars: id 131 gpus 8 mparams ''
+13: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+11: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 6: Run vars: id 131 gpus 8 mparams ''
+ 7: Run vars: id 131 gpus 8 mparams ''
+ 3: Run vars: id 131 gpus 8 mparams ''
+ 1: Run vars: id 131 gpus 8 mparams ''
+ 0: Run vars: id 131 gpus 8 mparams ''
+ 2: Run vars: id 131 gpus 8 mparams ''
+ 3: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 6: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 7: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 1: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 0: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 2: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 4: Run vars: id 131 gpus 8 mparams ''
+ 4: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+ 5: Run vars: id 131 gpus 8 mparams ''
+ 5: STARTING TIMING RUN AT 2023-10-05 10:34:52 PM
+12: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+10: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 9: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 0: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+15: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 8: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+13: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+11: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+14: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 6: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 7: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 2: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 1: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 3: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 4: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+ 5: num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+10: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+10:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 0: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 0:   warnings.warn(msg, DeprecatedFeatureWarning)
+12: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+12:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 6: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 6:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 7: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 7:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 9: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 9:   warnings.warn(msg, DeprecatedFeatureWarning)
+15: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+15:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 8: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 8:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 2: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 2:   warnings.warn(msg, DeprecatedFeatureWarning)
+11: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+11:   warnings.warn(msg, DeprecatedFeatureWarning)
+14: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+14:   warnings.warn(msg, DeprecatedFeatureWarning)
+13: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+13:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 5: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 5:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 4: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 4:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 3: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 3:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 1: /usr/local/lib/python3.10/dist-packages/apex/__init__.py:68: DeprecatedFeatureWarning: apex.amp is deprecated and will be removed by the end of February 2023. Use [PyTorch AMP](https://pytorch.org/docs/stable/amp.html)
+ 1:   warnings.warn(msg, DeprecatedFeatureWarning)
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545307592, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 6: :::MLLOG {"namespace": "", "time_ms": 1696545307592, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 7: :::MLLOG {"namespace": "", "time_ms": 1696545307592, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 2: :::MLLOG {"namespace": "", "time_ms": 1696545307593, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 9: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+10: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+13: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+15: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 8: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+11: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+12: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+14: :::MLLOG {"namespace": "", "time_ms": 1696545307644, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 8: device: cuda:0 n_gpu: 16, distributed training: True, 16-bits training: True
+ 5: :::MLLOG {"namespace": "", "time_ms": 1696545307890, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 4: :::MLLOG {"namespace": "", "time_ms": 1696545307890, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 3: :::MLLOG {"namespace": "", "time_ms": 1696545307892, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 1: :::MLLOG {"namespace": "", "time_ms": 1696545307892, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1270}}
+ 6: device: cuda:6 n_gpu: 16, distributed training: True, 16-bits training: True
+ 7: device: cuda:7 n_gpu: 16, distributed training: True, 16-bits training: True
+ 2: device: cuda:2 n_gpu: 16, distributed training: True, 16-bits training: True
+ 5: device: cuda:5 n_gpu: 16, distributed training: True, 16-bits training: True
+ 3: device: cuda:3 n_gpu: 16, distributed training: True, 16-bits training: True
+ 1: device: cuda:1 n_gpu: 16, distributed training: True, 16-bits training: True
+ 4: device: cuda:4 n_gpu: 16, distributed training: True, 16-bits training: True
+ 6: using fp8 FMHA
+ 7: using fp8 FMHA
+14: device: cuda:6 n_gpu: 16, distributed training: True, 16-bits training: True
+15: device: cuda:7 n_gpu: 16, distributed training: True, 16-bits training: True
+ 2: using fp8 FMHA
+13: device: cuda:5 n_gpu: 16, distributed training: True, 16-bits training: True
+12: device: cuda:4 n_gpu: 16, distributed training: True, 16-bits training: True
+ 9: device: cuda:1 n_gpu: 16, distributed training: True, 16-bits training: True
+11: device: cuda:3 n_gpu: 16, distributed training: True, 16-bits training: True
+10: device: cuda:2 n_gpu: 16, distributed training: True, 16-bits training: True
+ 0: device: cuda:0 n_gpu: 16, distributed training: True, 16-bits training: True
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "submission_benchmark", "value": "bert", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1277}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "submission_org", "value": "Dell", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1277}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "submission_division", "value": "closed", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1277}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "submission_status", "value": "onprem", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1277}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "submission_platform", "value": "2xXE9680x8H100-SXM-80GB", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1277}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "seed", "value": 1681, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1279}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "global_batch_size", "value": 1536, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1281}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "d_batch_size", "value": 48, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1283}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "gradient_accumulation_steps", "value": 1, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1285}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "max_predictions_per_seq", "value": 76, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1287}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "opt_learning_rate_training_steps", "value": 3680.0, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1289}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545308745, "event_type": "POINT_IN_TIME", "key": "num_warmup_steps", "value": 0, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1291}}
+ 0: parsed args:
+ 0: Namespace(input_dir='/workspace/data_phase2', packed_samples=True, order_samples=False, max_pack_factor=3, average_packing_rate=2, synthetic_input=False, bert_model='bert-large-uncased', cuda_graph_mode='segmented', max_iterations_per_graph=4, output_dir='/results', eval_dir='/workspace/evaldata', eval_iter_start_samples=150000, eval_iter_samples=150000, num_eval_examples=10000, cache_eval_data=True, load_eval_synchronously=False, init_checkpoint='/workspace/phase1/model.ckpt-28252.pt', init_tf_checkpoint=None, max_seq_length=512, max_predictions_per_seq=76, train_batch_size=48, eval_batch_size=16, learning_rate=0.00096, weight_decay_rate=0.1, opt_lamb_beta_1=0.60466, opt_lamb_beta_2=0.85437, max_steps=3680.0, sustained_training_time=0, max_samples_termination=4500000.0, warmup_proportion=0.0, warmup_steps=0.0, start_warmup_step=0.0, local_rank=0, seed=1681, gradient_accumulation_steps=1, fp16=True, loss_scale=0.0, log_freq=0.0, checkpoint_activations=False, resume_from_checkpoint=False, keep_n_most_recent_ch
+ 0: eckpoints=20, num_samples_per_checkpoint=500000, min_samples_to_start_checkpoints=3000000, skip_checkpoint=True, phase2=True, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, do_train=True, exchange_padding=False, unpad=False, unpad_fmha=False, pad_fmha=True, pad=False, enable_fuse_dropout=False, disable_fuse_mask=False, disable_fuse_scale=False, disable_fuse_qkv=False, disable_apex_softmax=False, enable_stream=False, fused_gemm_gelu=True, fused_mha=False, fused_gelu_bias=False, fused_dropout_add=True, fused_bias_mha=True, fused_bias_fc=True, fused_bias_fc_loss_head=False, dense_seq_output=True, use_env=False, bert_config_path='/workspace/phase1/bert_config.json', target_mlm_accuracy=0.72, train_mlm_accuracy_window_size=0, num_epochs_to_generate_seeds_for=2, use_cuda_graph=True, use_ddp=False, ddp_type='apex', use_gradient_as_bucket_view=False, bypass_amp=False, distributed_lamb=True, dwu_group_size=0, dwu_num_blocks=1, dwu_num_chunks=1, dwu_num_rs_pg=1, dwu_num_ar_pg=1, dwu_num_ag_p
+ 0: g=1, dwu_overlap_reductions=False, dwu_e5m2_allgather=False, use_transformer_engine2=True, n_gpu=16, device=device(type='cuda', index=0))
+ 5: using fp8 FMHA
+ 3: using fp8 FMHA
+ 1: using fp8 FMHA
+ 4: using fp8 FMHA
+ 9: using fp8 FMHA
+ 8: using fp8 FMHA
+11: using fp8 FMHA
+10: using fp8 FMHA
+13: using fp8 FMHA
+15: using fp8 FMHA
+14: using fp8 FMHA
+12: using fp8 FMHA
+ 0: using fp8 FMHA
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310536, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/embeddings/word_embeddings"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/embeddings/position_embeddings"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/embeddings/token_type_embeddings"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/embeddings/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/embeddings/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310537, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_0/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_1/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310538, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_2/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310539, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_3/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310540, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_4/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_5/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310541, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_6/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310542, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_7/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_8/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310543, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_9/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310544, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_10/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310545, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_11/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_12/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310546, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_13/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310547, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_14/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310548, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_15/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_16/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310549, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_17/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310550, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_18/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_19/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310551, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_20/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310552, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_21/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310553, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_22/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/query/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/query/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/key/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/key/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/value/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/self/value/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/attention/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/intermediate/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/intermediate/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/output/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/output/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/output/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/encoder/layer_23/output/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/pooler/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "bert/pooler/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310554, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/predictions/output_bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/predictions/transform/dense/kernel"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/predictions/transform/dense/bias"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/predictions/transform/LayerNorm/gamma"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/predictions/transform/LayerNorm/beta"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/seq_relationship/output_weights"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310555, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 887, "tensor": "cls/seq_relationship/output_bias"}}
+ 2: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 2:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 1: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 1:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 4: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 4:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 5: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 5:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 6: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 6:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 7: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 7:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 3: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 3:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545310803, "event_type": "POINT_IN_TIME", "key": "opt_base_learning_rate", "value": 0.00096, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 917}}
+ 0: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 0:   self._overflow_buf = torch.cuda.IntTensor([0])
+11: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+11:   self._overflow_buf = torch.cuda.IntTensor([0])
+13: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+13:   self._overflow_buf = torch.cuda.IntTensor([0])
+15: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+15:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 9: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 9:   self._overflow_buf = torch.cuda.IntTensor([0])
+14: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+14:   self._overflow_buf = torch.cuda.IntTensor([0])
+10: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+10:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 8: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+ 8:   self._overflow_buf = torch.cuda.IntTensor([0])
+12: /usr/local/lib/python3.10/dist-packages/apex/contrib/optimizers/distributed_fused_lamb.py:119: UserWarning: The torch.cuda.*DtypeTensor constructors are no longer recommended. It's best to use methods such as torch.tensor(data, dtype=*, device='cuda') to create tensors. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/tensor/python_tensor.cpp:83.)
+12:   self._overflow_buf = torch.cuda.IntTensor([0])
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323696, "event_type": "POINT_IN_TIME", "key": "opt_lamb_epsilon", "value": 1e-06, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 956}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323696, "event_type": "POINT_IN_TIME", "key": "opt_epsilon", "value": 1e-06, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 957}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323696, "event_type": "POINT_IN_TIME", "key": "opt_lamb_beta_1", "value": 0.60466, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 959}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323697, "event_type": "POINT_IN_TIME", "key": "opt_lamb_beta_2", "value": 0.85437, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 960}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323697, "event_type": "POINT_IN_TIME", "key": "opt_lamb_weight_decay_rate", "value": 0.1, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 961}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323748, "event_type": "POINT_IN_TIME", "key": "opt_learning_rate_warmup_steps", "value": 0, "metadata": {"file": "/workspace/bert/schedulers.py", "lineno": 86}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323866, "event_type": "POINT_IN_TIME", "key": "opt_lamb_learning_rate_decay_poly_power", "value": 1.0, "metadata": {"file": "/workspace/bert/schedulers.py", "lineno": 87}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545323866, "event_type": "POINT_IN_TIME", "key": "start_warmup_step", "value": 0, "metadata": {"file": "/workspace/bert/schedulers.py", "lineno": 88}}
+ 2: Torch distributed is available.
+ 2: Torch distributed is initialized.
+ 3: Torch distributed is available.
+ 3: Torch distributed is initialized.
+ 7: Torch distributed is available.
+ 7: Torch distributed is initialized.
+ 1: Torch distributed is available.
+ 1: Torch distributed is initialized.
+ 4: Torch distributed is available.
+ 4: Torch distributed is initialized.
+ 5: Torch distributed is available.
+ 5: Torch distributed is initialized.
+ 6: Torch distributed is available.
+ 6: Torch distributed is initialized.
+10: Torch distributed is available.
+10: Torch distributed is initialized.
+11: Torch distributed is available.
+11: Torch distributed is initialized.
+15: Torch distributed is available.
+15: Torch distributed is initialized.
+ 9: Torch distributed is available.
+ 9: Torch distributed is initialized.
+ 8: Torch distributed is available.
+ 8: Torch distributed is initialized.
+14: Torch distributed is available.
+14: Torch distributed is initialized.
+12: Torch distributed is available.
+12: Torch distributed is initialized.
+13: Torch distributed is available.
+13: Torch distributed is initialized.
+ 0: Torch distributed is available.
+ 0: Torch distributed is initialized.
+10: Torch distributed is available.
+10: Torch distributed is initialized.
+ 8: Torch distributed is available.
+ 8: Torch distributed is initialized.
+ 9: Torch distributed is available.
+ 9: Torch distributed is initialized.
+11: Torch distributed is available.
+11: Torch distributed is initialized.
+12: Torch distributed is available.
+12: Torch distributed is initialized.
+13: Torch distributed is available.
+13: Torch distributed is initialized.
+14: Torch distributed is available.
+14: Torch distributed is initialized.
+15: Torch distributed is available.
+15: Torch distributed is initialized.
+ 4: Torch distributed is available.
+ 4: Torch distributed is initialized.
+ 5: Torch distributed is available.
+ 5: Torch distributed is initialized.
+ 1: Torch distributed is available.
+ 1: Torch distributed is initialized.
+ 2: Torch distributed is available.
+ 2: Torch distributed is initialized.
+ 6: Torch distributed is available.
+ 6: Torch distributed is initialized.
+ 7: Torch distributed is available.
+ 7: Torch distributed is initialized.
+ 3: Torch distributed is available.
+ 3: Torch distributed is initialized.
+ 0: Torch distributed is available.
+ 0: Torch distributed is initialized.
+15: Enabling make_graphed_callables for encoder!!
+10: Enabling make_graphed_callables for encoder!!
+ 7: Enabling make_graphed_callables for encoder!!
+ 6: Enabling make_graphed_callables for encoder!!
+ 0: Enabling make_graphed_callables for encoder!!
+12: Enabling make_graphed_callables for encoder!!
+ 8: Enabling make_graphed_callables for encoder!!
+ 4: Enabling make_graphed_callables for encoder!!
+13: Enabling make_graphed_callables for encoder!!
+ 3: Enabling make_graphed_callables for encoder!!
+14: Enabling make_graphed_callables for encoder!!
+ 5: Enabling make_graphed_callables for encoder!!
+ 9: Enabling make_graphed_callables for encoder!!
+11: Enabling make_graphed_callables for encoder!!
+ 1: Enabling make_graphed_callables for encoder!!
+ 2: Enabling make_graphed_callables for encoder!!
+ 4: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 4:   out = jit_dropout_add(x, residual, prob)
+ 5: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 5:   out = jit_dropout_add(x, residual, prob)
+ 7: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 7:   out = jit_dropout_add(x, residual, prob)
+ 0: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 0:   out = jit_dropout_add(x, residual, prob)
+ 2: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 2:   out = jit_dropout_add(x, residual, prob)
+ 3: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 3:   out = jit_dropout_add(x, residual, prob)
+ 6: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 6:   out = jit_dropout_add(x, residual, prob)
+14: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+14:   out = jit_dropout_add(x, residual, prob)
+13: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+13:   out = jit_dropout_add(x, residual, prob)
+15: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+15:   out = jit_dropout_add(x, residual, prob)
+ 8: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 8:   out = jit_dropout_add(x, residual, prob)
+ 9: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 9:   out = jit_dropout_add(x, residual, prob)
+10: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+10:   out = jit_dropout_add(x, residual, prob)
+12: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+12:   out = jit_dropout_add(x, residual, prob)
+11: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+11:   out = jit_dropout_add(x, residual, prob)
+ 1: /workspace/bert/modeling.py:206: UserWarning: nvfuser integration in TorchScript is deprecated. (Triggered internally at /opt/pytorch/pytorch/torch/csrc/jit/codegen/cuda/interface.cpp:235.)
+ 1:   out = jit_dropout_add(x, residual, prob)
+ 1: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 1:   warnings.warn(
+ 2: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 2:   warnings.warn(
+ 3: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 3:   warnings.warn(
+ 4: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 4:   warnings.warn(
+ 5: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 5:   warnings.warn(
+ 6: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 6:   warnings.warn(
+ 7: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 7:   warnings.warn(
+ 0: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 0:   warnings.warn(
+ 8: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 8:   warnings.warn(
+ 9: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 9:   warnings.warn(
+10: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+10:   warnings.warn(
+11: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+11:   warnings.warn(
+12: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+12:   warnings.warn(
+13: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+13:   warnings.warn(
+14: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+14:   warnings.warn(
+15: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+15:   warnings.warn(
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545341321, "event_type": "INTERVAL_END", "key": "init_stop", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1621}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545341321, "event_type": "INTERVAL_START", "key": "run_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1621}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545341349, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1639, "epoch_num": 0}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545341349, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1641, "first_epoch_num": 1, "epoch_count": 1}}
+ 0: parsed args:
+ 0: Namespace(input_dir='/workspace/data_phase2', packed_samples=True, order_samples=False, max_pack_factor=3, average_packing_rate=2, synthetic_input=False, bert_model='bert-large-uncased', cuda_graph_mode='segmented', max_iterations_per_graph=4, output_dir='/results', eval_dir='/workspace/evaldata', eval_iter_start_samples=150000, eval_iter_samples=150000, num_eval_examples=10000, cache_eval_data=True, load_eval_synchronously=False, init_checkpoint='/workspace/phase1/model.ckpt-28252.pt', init_tf_checkpoint=None, max_seq_length=512, max_predictions_per_seq=76, train_batch_size=48, eval_batch_size=16, learning_rate=0.00096, weight_decay_rate=0.1, opt_lamb_beta_1=0.60466, opt_lamb_beta_2=0.85437, max_steps=3680.0, sustained_training_time=0, max_samples_termination=4500000.0, warmup_proportion=0.0, warmup_steps=0.0, start_warmup_step=0.0, local_rank=0, seed=1681, gradient_accumulation_steps=1, fp16=True, loss_scale=0.0, log_freq=0.0, checkpoint_activations=False, resume_from_checkpoint=False, keep_n_most_recent_ch
+ 0: eckpoints=20, num_samples_per_checkpoint=500000, min_samples_to_start_checkpoints=3000000, skip_checkpoint=True, phase2=True, allreduce_post_accumulation=False, allreduce_post_accumulation_fp16=False, do_train=True, exchange_padding=False, unpad=False, unpad_fmha=False, pad_fmha=True, pad=False, enable_fuse_dropout=False, disable_fuse_mask=False, disable_fuse_scale=False, disable_fuse_qkv=False, disable_apex_softmax=False, enable_stream=False, fused_gemm_gelu=True, fused_mha=False, fused_gelu_bias=False, fused_dropout_add=True, fused_bias_mha=True, fused_bias_fc=True, fused_bias_fc_loss_head=False, dense_seq_output=True, use_env=False, bert_config_path='/workspace/phase1/bert_config.json', target_mlm_accuracy=0.72, train_mlm_accuracy_window_size=0, num_epochs_to_generate_seeds_for=2, use_cuda_graph=True, use_ddp=False, ddp_type='apex', use_gradient_as_bucket_view=False, bypass_amp=False, distributed_lamb=True, dwu_group_size=0, dwu_num_blocks=1, dwu_num_chunks=1, dwu_num_rs_pg=1, dwu_num_ar_pg=1, dwu_num_ag_p
+ 0: g=1, dwu_overlap_reductions=False, dwu_e5m2_allgather=False, use_transformer_engine2=True, n_gpu=16, device=device(type='cuda', index=0), resume_step=0)
+ 0: epoch: 1
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545341349, "event_type": "POINT_IN_TIME", "key": "data_file", "value": "/workspace/data_phase2/part_02724", "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1676}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545351720, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14535.09479833683}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 150740}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545351721, "event_type": "INTERVAL_START", "key": "eval_start", "value": 150740, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 150740}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545353714, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 150740, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 150740}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545353715, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.3734865188598633, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 150740}}
+ 0: {'global_steps': 98, 'eval_loss': 4.098370552062988, 'eval_mlm_accuracy': 0.3734865188598633}
+ 4: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 4:   warnings.warn(
+ 2: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 2:   warnings.warn(
+10: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+10:   warnings.warn(
+ 3: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 3:   warnings.warn(
+ 6: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 6:   warnings.warn(
+ 0: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 0:   warnings.warn(
+ 5: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 5:   warnings.warn(
+ 1: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 1:   warnings.warn(
+ 8: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 8:   warnings.warn(
+ 9: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 9:   warnings.warn(
+12: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+12:   warnings.warn(
+14: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+14:   warnings.warn(
+13: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+13:   warnings.warn(
+ 7: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+ 7:   warnings.warn(
+15: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+15:   warnings.warn(
+11: /usr/local/lib/python3.10/dist-packages/torch/cuda/amp/grad_scaler.py:378: FutureWarning: GradScaler is going to stop passing itself as a keyword argument to the passed optimizer. In the near future GradScaler registers `grad_scale: Tensor` and `found_inf: Tensor` to the passed optimizer and let the optimizer use them directly.
+11:   warnings.warn(
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545363089, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 13222.994879880309}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 301074}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545363090, "event_type": "INTERVAL_START", "key": "eval_start", "value": 301074, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 301074}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545363796, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 301074, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 301074}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545363796, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.38737842440605164, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 301074}}
+ 0: {'global_steps': 196, 'eval_loss': 3.9827287197113037, 'eval_mlm_accuracy': 0.38737842440605164}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545373083, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14878.293569030151}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 449761}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545373083, "event_type": "INTERVAL_START", "key": "eval_start", "value": 449761, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 449761}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545373818, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 449761, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 449761}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545373819, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.40490150451660156, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 449761}}
+ 0: {'global_steps': 293, 'eval_loss': 3.8035547733306885, 'eval_mlm_accuracy': 0.40490150451660156}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545383640, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14241.267817234855}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 600113}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545383641, "event_type": "INTERVAL_START", "key": "eval_start", "value": 600113, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 600113}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545384338, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 600113, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 600113}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545384338, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.45490211248397827, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 600113}}
+ 0: {'global_steps': 391, 'eval_loss': 3.3473682403564453, 'eval_mlm_accuracy': 0.45490211248397827}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545393734, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14916.460097268067}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 750678}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545393735, "event_type": "INTERVAL_START", "key": "eval_start", "value": 750678, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 750678}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545394425, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 750678, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 750678}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545394425, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.5442455410957336, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 750678}}
+ 0: {'global_steps': 489, 'eval_loss': 2.604003667831421, 'eval_mlm_accuracy': 0.5442455410957336}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545403730, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14915.955999975766}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 899773}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545403730, "event_type": "INTERVAL_START", "key": "eval_start", "value": 899773, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 899773}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545404426, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 899773, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 899773}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545404426, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.6419699192047119, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 899773}}
+ 0: {'global_steps': 586, 'eval_loss': 1.8418768644332886, 'eval_mlm_accuracy': 0.6419699192047119}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545413826, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14922.577174412036}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1050433}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545413826, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1050433, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1050433}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545414520, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1050433, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1050433}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545414520, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.6953681707382202, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1050433}}
+ 0: {'global_steps': 684, 'eval_loss': 1.4599546194076538, 'eval_mlm_accuracy': 0.6953681707382202}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545424256, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14443.246832506098}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1201076}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545424257, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1201076, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1201076}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545424949, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1201076, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1201076}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545424950, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.706231415271759, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1201076}}
+ 0: {'global_steps': 782, 'eval_loss': 1.3937870264053345, 'eval_mlm_accuracy': 0.706231415271759}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545434262, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14866.392696432695}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1349833}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545434263, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1349833, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1349833}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545434949, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1349833, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1349833}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545434950, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7096570730209351, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1349833}}
+ 0: {'global_steps': 879, 'eval_loss': 1.3689813613891602, 'eval_mlm_accuracy': 0.7096570730209351}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545444362, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14862.796060400644}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1499939}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545444362, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1499939, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1499939}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545445049, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1499939, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1499939}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545445050, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7121673822402954, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1499939}}
+ 0: {'global_steps': 977, 'eval_loss': 1.3517531156539917, 'eval_mlm_accuracy': 0.7121673822402954}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545454457, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14911.911360878546}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1650484}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545454458, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1650484, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1650484}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545455148, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1650484, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1650484}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545455148, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7140121459960938, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1650484}}
+ 0: {'global_steps': 1075, 'eval_loss': 1.342900276184082, 'eval_mlm_accuracy': 0.7140121459960938}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545464806, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14413.054187017342}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1799639}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545464807, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1799639, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1799639}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545465498, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1799639, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1799639}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545465498, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7148551344871521, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1799639}}
+ 0: {'global_steps': 1172, 'eval_loss': 1.3400191068649292, 'eval_mlm_accuracy': 0.7148551344871521}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545474901, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14925.8961332806}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 1950322}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545474902, "event_type": "INTERVAL_START", "key": "eval_start", "value": 1950322, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 1950322}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545475590, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 1950322, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 1950322}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545475590, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7158312797546387, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 1950322}}
+ 0: {'global_steps': 1270, 'eval_loss': 1.3332231044769287, 'eval_mlm_accuracy': 0.7158312797546387}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545484993, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14934.431318412351}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2101034}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545484993, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2101034, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2101034}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545485687, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2101034, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2101034}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545485688, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.71659255027771, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2101034}}
+ 0: {'global_steps': 1368, 'eval_loss': 1.3266267776489258, 'eval_mlm_accuracy': 0.71659255027771}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545494995, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14897.858570201523}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2250036}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545494995, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2250036, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2250036}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545495787, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2250036, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2250036}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545495787, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7171996831893921, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2250036}}
+ 0: {'global_steps': 1465, 'eval_loss': 1.3218560218811035, 'eval_mlm_accuracy': 0.7171996831893921}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545505569, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14239.708318788267}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2400607}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545505569, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2400607, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2400607}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545506260, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2400607, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2400607}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545506260, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7182388305664062, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2400607}}
+ 0: {'global_steps': 1563, 'eval_loss': 1.3172630071640015, 'eval_mlm_accuracy': 0.7182388305664062}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545515663, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14906.308593084641}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2551084}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545515664, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2551084, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2551084}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545516355, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2551084, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2551084}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545516355, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.718677818775177, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2551084}}
+ 0: {'global_steps': 1661, 'eval_loss': 1.315488338470459, 'eval_mlm_accuracy': 0.718677818775177}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545525656, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14890.716110540001}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2699883}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545525656, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2699883, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2699883}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545526347, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2699883, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2699883}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545526347, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7189440131187439, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2699883}}
+ 0: {'global_steps': 1758, 'eval_loss': 1.3162431716918945, 'eval_mlm_accuracy': 0.7189440131187439}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545535747, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14890.56661299601}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 2850144}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545535747, "event_type": "INTERVAL_START", "key": "eval_start", "value": 2850144, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 2850144}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545536558, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 2850144, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 2850144}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545536558, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7189790606498718, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 2850144}}
+ 0: {'global_steps': 1856, 'eval_loss': 1.3112772703170776, 'eval_mlm_accuracy': 0.7189790606498718}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545546348, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14200.3680289649}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 3000680}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545546349, "event_type": "INTERVAL_START", "key": "eval_start", "value": 3000680, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 3000680}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545547044, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 3000680, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 3000680}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545547044, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7199831604957581, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 3000680}}
+ 0: {'global_steps': 1954, 'eval_loss': 1.306670069694519, 'eval_mlm_accuracy': 0.7199831604957581}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545556344, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14898.095866231957}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 3149596}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545556344, "event_type": "INTERVAL_START", "key": "eval_start", "value": 3149596, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 3149596}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545557031, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 3149596, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 3149596}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545557031, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7199761867523193, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 3149596}}
+ 0: {'global_steps': 2051, 'eval_loss': 1.30534029006958, 'eval_mlm_accuracy': 0.7199761867523193}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545566421, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14921.034610593617}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1850, "epoch_num": 3299958}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545566421, "event_type": "INTERVAL_START", "key": "eval_start", "value": 3299958, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1856, "epoch_num": 3299958}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567110, "event_type": "INTERVAL_END", "key": "eval_stop", "value": 3299958, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1862, "epoch_num": 3299958}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567110, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7206206917762756, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1866, "epoch_num": 3299958}}
+ 0: {'global_steps': 2149, 'eval_loss': 1.302972674369812, 'eval_mlm_accuracy': 0.7206206917762756}
+ 0: 0.720621 > 0.720000, Target MLM Accuracy reached at 2149
+ 0: Training runs 3.949074669679006 mins sustained_training_time 0
+ 0: (1, 2149.0) {'final_loss': 0.0}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567111, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1985, "first_epoch_num": 1}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567111, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1988, "epoch_num": 3299958}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567111, "event_type": "POINT_IN_TIME", "key": "train_samples", "value": 3299958, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1990}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567112, "event_type": "POINT_IN_TIME", "key": "eval_samples", "value": 10000, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1993}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567112, "event_type": "INTERVAL_END", "key": "run_stop", "value": null, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 1996, "status": "success"}}
+ 0: :::MLLOG {"namespace": "", "time_ms": 1696545567113, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 14615.096324111413, "epoch_num": 3299958}, "metadata": {"file": "/workspace/bert/run_pretraining.py", "lineno": 2035, "step": [2, 2149]}}
+ 0: {'e2e_time': 259.6689190864563, 'training_sequences_per_second': 23855.713049798658, 'final_loss': 0.0, 'raw_train_time': 236.94449996948242}
+11: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+11: RESULT,bert,5453,277,root,2023-10-05 10:34:52 PM
+ 4: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 4: RESULT,bert,28657,277,root,2023-10-05 10:34:52 PM
+ 7: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 7: RESULT,bert,18432,277,root,2023-10-05 10:34:52 PM
+ 8: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 8: RESULT,bert,5481,277,root,2023-10-05 10:34:52 PM
+ 6: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 6: RESULT,bert,24168,277,root,2023-10-05 10:34:52 PM
+ 9: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 9: RESULT,bert,18290,277,root,2023-10-05 10:34:52 PM
+ 1: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+ 1: RESULT,bert,14850,277,root,2023-10-05 10:34:52 PM
+15: ENDING TIMING RUN AT 2023-10-05 10:39:29 PM
+15: RESULT,bert,20871,277,root,2023-10-05 10:34:52 PM
+13: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+13: RESULT,bert,30888,278,root,2023-10-05 10:34:52 PM
+14: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+14: RESULT,bert,16330,278,root,2023-10-05 10:34:52 PM
+10: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+10: RESULT,bert,15284,278,root,2023-10-05 10:34:52 PM
+ 0: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+ 0: RESULT,bert,1681,278,root,2023-10-05 10:34:52 PM
+ 5: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+ 5: RESULT,bert,13049,278,root,2023-10-05 10:34:52 PM
+ 2: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+ 2: RESULT,bert,12017,278,root,2023-10-05 10:34:52 PM
+ 3: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+ 3: RESULT,bert,31846,278,root,2023-10-05 10:34:52 PM
+12: ENDING TIMING RUN AT 2023-10-05 10:39:30 PM
+12: RESULT,bert,16330,278,root,2023-10-05 10:34:52 PM

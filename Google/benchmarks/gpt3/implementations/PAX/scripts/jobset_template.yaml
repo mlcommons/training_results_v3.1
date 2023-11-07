@@ -1,0 +1,68 @@
+apiVersion: jobset.x-k8s.io/v1alpha2
+kind: JobSet
+metadata:
+  name: <USER>-mlperf-gpt3-benchmark-<ACCELERATOR_TYPE>-<NUM_CHIPS>-<TIMESTAMP>
+  annotations:
+    alpha.jobset.sigs.k8s.io/exclusive-topology: cloud.google.com/gke-nodepool  # 1:1 job replica to node pool assignment
+spec:
+  failurePolicy:
+    maxRestarts: 3
+  replicatedJobs:
+  - name: job
+    replicas: <NUM_SLICES>   # Number of slices
+    template:
+      spec:
+        parallelism: <NUM_NODES>    # Equal to the total cores per slice / cores per node.
+        completions: <NUM_NODES>    # Same as the above.
+        backoffLimit: 0   # When any pod fails, the job is failed
+        template:
+          spec:
+            restartPolicy: Never
+            nodeSelector:
+              cloud.google.com/gke-tpu-accelerator: tpu-v5-lite-podslice
+              cloud.google.com/gke-tpu-topology: <TPU_TOPOLOGY>
+            hostNetwork: true
+            dnsPolicy: ClusterFirstWithHostNet
+            containers:
+            - name: jax-tpu
+              image: <IMAGE>
+              imagePullPolicy: Always
+              env:
+              - name: JOBSET_NAME
+                valueFrom:
+                  fieldRef:
+                    fieldPath: metadata.labels['jobset.sigs.k8s.io/jobset-name']
+              - name: PAX_DATE
+                value: <PAX_DATE>
+              - name: EXP_NAME
+                value: <EXP_NAME>
+              - name: GS_PREFIX
+                value: <GS_PREFIX>
+              - name: NUM_SLICES
+                value: "<NUM_SLICES>"
+              - name: ENABLE_LOCAL_AQT
+                value: <ENABLE_LOCAL_AQT>
+              ports:
+              - containerPort: 8471
+              - containerPort: 8080
+              securityContext:
+                privileged: true
+              command:
+              - bash
+              - -c
+              - |
+                set -euo pipefail
+                source /tmp/mlperf_test_script/env.sh
+                echo "$(get_ip www.googleapis.com) www.googleapis.com" | tee -a /etc/hosts
+                echo "$(get_ip storage.googleapis.com) storage.googleapis.com" | tee -a /etc/hosts
+                retry gsutil -m cp -r gs://${GS_PREFIX}/mlperf_test_script/ /tmp/
+                cp /tmp/mlperf_test_script/src/*.py /usr/local/lib/python3.10/site-packages/paxml/tasks/lm/params/
+                cp /tmp/mlperf_test_script/patch_src/checkpoint_creators.py /usr/local/lib/python3.10/site-packages/paxml/
+                cp /tmp/mlperf_test_script/patch_src/programs.py /usr/local/lib/python3.10/site-packages/paxml/
+                cp -r /tmp/mlperf_test_script/src/aqt /usr/local/lib/python3.10/site-packages/paxml/
+                echo "start pod_run:"
+                bash /tmp/mlperf_test_script/pod_run.sh
+                sleep 600
+              resources:
+                limits:
+                  google.com/tpu: <NUM_CHIPS_PER_NODE>  # Number of TPU chips per worker

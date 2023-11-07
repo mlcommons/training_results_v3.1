@@ -1,0 +1,70 @@
+#!/bin/bash
+
+usage_string="\
+usage: ${0} /PATH/TO/REMOTE/INPUT.tar /tmp/PATH/TO/LOCAL/TMPDIR MD5SUM
+     Checks whether /tmp/PATH/TO/LOCAL/TMPDIR exists and is valid
+     If so, does nothing
+     if not, creates the dir, copies and untars the contents of INPUT.tar there
+"
+
+# check if user just wants help:
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "${usage_string}"
+    exit 0
+fi
+
+# need three arguments:
+if [[ "$#" -ne "3" ]]; then
+    echo "${usage_string}"
+    exit 1
+fi
+
+umask 0
+
+remote_tarfile="${1}"
+local_tmpdir="${2}"
+valid_md5sum="${3}"
+
+echo "syncronizing ${remote_tarfile} to ${local_tmpdir} so both will have md5sum ${valid_md5sum}"
+
+if [[ ! -f "${remote_tarfile}" ]]; then
+    echo "can't find file ${remote_tarfile}!"
+    echo "${usage_string}"
+    exit 1
+fi
+
+# first check for valid local copy:
+if [[ -d "${local_tmpdir}" ]]; then
+    dirmd5="$(cd "${local_tmpdir}"; find . -type f | xargs stat --format="%n %s %y" | LC_ALL=C sort | md5sum | cut -f1 -d' ')"
+    echo "TMP: current CHECKSUM ${dirmd5}"
+    #find /tmp/nvmlperf/data/resnet || true
+    if [[ "x${dirmd5}" != "x${valid_md5sum}" ]]; then
+        # the contents of the tmpdir are wrong, so delete tmpdir and all
+        # contents:
+        rm -r "${local_tmpdir}"
+	echo "TMP: the contents of the tmpdir are wrong, so delete tmpdir and all"
+    else
+        # directory exists and seems valid!
+	echo "TMP: Directory exists and seems valid!"
+        exit 0
+    fi
+fi
+
+# if directory didn't already exist, or was found invalid above: reconstruct from tarfile
+if [[ ! -d "${local_tmpdir}" ]]; then
+    mkdir --parents "${local_tmpdir}"
+    echo "TMP: Creating ${local_tmpdir}"
+    # somewhat faster copy of file over network port
+    time dd bs=4M if="${remote_tarfile}" of="${local_tmpdir}/bert.data.tar" oflag=direct
+    time tar --directory="${local_tmpdir}" --extract --file "${local_tmpdir}/bert.data.tar"
+    echo "TMP: Removing ${local_tmpdir}/bert.data.tar"
+    rm "${local_tmpdir}/bert.data.tar"
+    dirmd5="$(cd "${local_tmpdir}"; find . -type f | xargs stat --format="%n %s %y" | LC_ALL=C sort | md5sum | cut -f1 -d' ')"
+    echo "TMP: new checksum ${dirmd5}"
+
+else
+    echo "WARNING: ${0} reached a condition it should never reach"
+    echo "${local_tmpdir} exists and looks valid but script continued to try to create it anyway?"
+fi
+
+ls "${local_tmpdir}"

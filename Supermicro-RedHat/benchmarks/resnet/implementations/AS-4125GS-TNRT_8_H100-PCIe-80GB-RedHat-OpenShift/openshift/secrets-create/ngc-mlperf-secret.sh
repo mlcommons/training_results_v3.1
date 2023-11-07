@@ -1,0 +1,1 @@
+oc create secret docker-registry resnetdnode1 --docker-server=nvcr.io --docker-username=\$oauthtoken --docker-password=Y3JvdGthZnBlNmNiOGx0YWM0c285cmE4dmk6ODAyNWM5YzQtZDEzMy00YWUyLTg1ODctMzU4NDZkYzFkZjZj --docker-email=nikolan@supermicro.com -n openshift-local-storage

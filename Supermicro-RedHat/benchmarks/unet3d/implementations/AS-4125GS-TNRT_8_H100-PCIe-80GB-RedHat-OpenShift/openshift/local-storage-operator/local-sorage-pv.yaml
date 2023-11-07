@@ -1,0 +1,21 @@
+apiVersion: "local.storage.openshift.io/v1"
+kind: "LocalVolume"
+metadata:
+  name: "local-disks"
+  namespace: "openshift-local-storage" 
+spec:
+  nodeSelector: 
+    nodeSelectorTerms:
+    - matchExpressions:
+        - key: kubernetes.io/hostname
+          operator: In
+          values:
+          - 3c-ec-ef-5c-f5-18
+          - 7c-c2-55-56-0a-ad
+  storageClassDevices:
+    - storageClassName: "local-sc"
+      volumeMode: Filesystem
+      fsType: xfs
+      devicePaths:
+        - /dev/nvme2n1
+        - /dev/nvme0n1

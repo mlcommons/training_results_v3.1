@@ -1,0 +1,53 @@
+diff --git a/src/pytorch_lightning/core/module.py b/src/pytorch_lightning/core/module.py
+index f9e5c884d..87f5eeb33 100644
+--- a/src/pytorch_lightning/core/module.py
++++ b/src/pytorch_lightning/core/module.py
+@@ -610,9 +610,9 @@ class LightningModule(
+ 
+     def __to_tensor(self, value: Union[Tensor, numbers.Number], name: str) -> Tensor:
+         value = (
+-            value.clone().detach().to(self.device)
++            value.clone().detach()
+             if isinstance(value, Tensor)
+-            else torch.tensor(value, device=self.device)
++            else torch.tensor(value)
+         )
+         if not torch.numel(value) == 1:
+             raise ValueError(
+diff --git a/src/pytorch_lightning/strategies/ddp.py b/src/pytorch_lightning/strategies/ddp.py
+index bc74f5d12..2237c75df 100644
+--- a/src/pytorch_lightning/strategies/ddp.py
++++ b/src/pytorch_lightning/strategies/ddp.py
+@@ -191,7 +191,9 @@ class DDPStrategy(ParallelStrategy):
+         """Wraps the model into a :class:`~torch.nn.parallel.distributed.DistributedDataParallel` module."""
+         device_ids = self.determine_ddp_device_ids()
+         log.detail(f"setting up DDP model with device ids: {device_ids}, kwargs: {self._ddp_kwargs}")
+-        return DistributedDataParallel(module=model, device_ids=device_ids, **self._ddp_kwargs)
++        with torch.cuda.stream(torch.cuda.Stream()):
++            ddp_model = DistributedDataParallel(module=model, device_ids=device_ids, **self._ddp_kwargs)
++        return ddp_model
+ 
+     def setup_distributed(self) -> None:
+         log.detail(f"{self.__class__.__name__}: setting up distributed...")
+diff --git a/src/pytorch_lightning/trainer/connectors/logger_connector/result.py b/src/pytorch_lightning/trainer/connectors/logger_connector/result.py
+index b3e73f7a4..4d05fd5a6 100644
+--- a/src/pytorch_lightning/trainer/connectors/logger_connector/result.py
++++ b/src/pytorch_lightning/trainer/connectors/logger_connector/result.py
+@@ -502,7 +502,7 @@ class _ResultCollection(dict):
+ 
+         def fn(v: _IN_METRIC) -> _ResultMetric:
+             metric = _ResultMetric(meta, isinstance(v, Tensor))
+-            return metric.to(self.device)
++            return metric.to(v.device)
+ 
+         value = apply_to_collection(value, (Tensor, Metric), fn)
+         if isinstance(value, dict):
+@@ -512,7 +512,7 @@ class _ResultCollection(dict):
+     def update_metrics(self, key: str, value: _METRIC_COLLECTION, batch_size: int) -> None:
+         def fn(result_metric: _ResultMetric, v: Tensor) -> None:
+             # performance: avoid calling `__call__` to avoid the checks in `torch.nn.Module._call_impl`
+-            result_metric.forward(v.to(self.device), batch_size)
++            result_metric.forward(v, batch_size)
+             result_metric.has_reset = False
+ 
+         apply_to_collections(self[key], value, _ResultMetric, fn)

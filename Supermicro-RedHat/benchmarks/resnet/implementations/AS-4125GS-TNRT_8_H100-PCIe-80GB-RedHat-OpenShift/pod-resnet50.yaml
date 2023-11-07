@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-resnet
+  namespace: openshift-local-storage
+spec:
+  containers:
+    - name: mytestpod-resnet
+      image: nvcr.io/nvdlfwea/mlperfv31/resnet:20230926.mxnet
+      command: ["/bin/bash", "-ec", "tail -f /dev/null" ]
+      volumeMounts:
+      - mountPath: "/data"
+        name: dianepd7
+      - mountPath: /dev/shm
+        name: cache-volume
+      resources:
+        limits:
+          nvidia.com/gpu: 8
+  volumes:
+    - name: dianepd7
+      persistentVolumeClaim:
+        claimName: delta-4125gs-pvc5
+    - emptyDir:
+        medium: Memory
+        sizeLimit: 50Gi
+      name: cache-volume
+  imagePullSecrets:
+  - name: resnetdnode1

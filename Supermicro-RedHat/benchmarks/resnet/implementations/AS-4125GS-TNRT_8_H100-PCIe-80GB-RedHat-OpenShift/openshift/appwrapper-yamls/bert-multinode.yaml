@@ -1,0 +1,182 @@
+apiVersion: workload.codeflare.dev/v1beta1
+kind: AppWrapper
+metadata:
+  creationTimestamp: "2023-10-02T23:09:28Z"
+  generation: 1
+  name: multinode-bert-zgsjvwhr9b0gcc
+  namespace: openshift-local-storage
+  resourceVersion: "34664754"
+  uid: edc28b61-14c8-4328-8192-d19991b1996b
+spec:
+  resources:
+    GenericItems:
+    - generictemplate:
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+          labels:
+            app.kubernetes.io/instance: multinode-bert-zgsjvwhr9b0gcc
+            app.kubernetes.io/managed-by: torchx.pytorch.org
+            app.kubernetes.io/name: multinode-bert
+            torchx.pytorch.org/app-name: multinode-bert
+            torchx.pytorch.org/replica-id: "0"
+            torchx.pytorch.org/role-index: "0"
+            torchx.pytorch.org/role-name: run_and_time
+            torchx.pytorch.org/version: 0.6.0dev0
+          name: multinode-bert-zgsjvwhr9b0gcc-0
+          namespace: openshift-local-storage
+        spec:
+          containers:
+          - command:
+            - bash
+            - -c
+            - torchrun --rdzv_backend c10d --rdzv_endpoint ${TORCHX_RANK0_HOST:=localhost}:29500
+              --rdzv_id 'multinode-bert-zgsjvwhr9b0gcc' --nnodes 2 --no_python --nproc_per_node
+              5 --node_rank '0' --tee 3 --role '' ./run_and_time.sh
+            envFrom:
+               - configMapRef:
+                   name: bertconfig
+            env:
+            - name: TORCHX_TRACKING_EXPERIMENT_NAME
+              value: default-experiment
+            - name: LOGLEVEL
+              value: WARNING
+            - name: TORCHX_JOB_ID
+              value: kubernetes_mcad://torchx/multinode-bert-zgsjvwhr9b0gcc
+            - name: TORCHX_RANK0_HOST
+              value: localhost
+            - name: TORCHX_MCAD_RUNANDTIME_0_HOSTS
+              value: multinode-bert-zgsjvwhr9b0gcc-0.multinode-bert-zgsjvwhr9b0gcc
+            image: docker.io/nikolovn79/bert_openshift_submission:latest
+            name: multinode-bert-zgsjvwhr9b0gcc-0
+            ports:
+            - containerPort: 29500
+              name: c10d
+            resources:
+              limits:
+                cpu: 64000m
+                memory: 24000M
+                nvidia.com/gpu: "5"
+              requests:
+                cpu: 63900m
+                memory: 22976M
+                nvidia.com/gpu: "5"
+            securityContext: {}
+            volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+            - mountPath: /data
+              name: mount-0
+              readOnly: false
+          hostname: multinode-bert-zgsjvwhr9b0gcc-0
+          imagePullSecrets:
+          - {}
+          nodeSelector: {}
+          restartPolicy: Never
+          subdomain: multinode-bert-zgsjvwhr9b0gcc
+          volumes:
+          - emptyDir:
+              medium: Memory
+            name: dshm
+          - name: mount-0
+            persistentVolumeClaim:
+              claimName: delta-4125gs-pvc5
+      replicas: 1
+    - generictemplate:
+        apiVersion: v1
+        kind: Pod
+        metadata:
+          annotations:
+            sidecar.istio.io/inject: "false"
+          labels:
+            app.kubernetes.io/instance: multinode-bert-zgsjvwhr9b0gcc
+            app.kubernetes.io/managed-by: torchx.pytorch.org
+            app.kubernetes.io/name: multinode-bert
+            torchx.pytorch.org/app-name: multinode-bert
+            torchx.pytorch.org/replica-id: "1"
+            torchx.pytorch.org/role-index: "0"
+            torchx.pytorch.org/role-name: run_and_time
+            torchx.pytorch.org/version: 0.6.0dev0
+          name: multinode-bert-zgsjvwhr9b0gcc-1
+          namespace: openshift-local-storage
+        spec:
+          containers:
+          - command:
+            - bash
+            - -c
+            - torchrun --rdzv_backend c10d --rdzv_endpoint ${TORCHX_MCAD_RUNANDTIME_0_HOSTS:=localhost}:29500
+              --rdzv_id 'multinode-bert-zgsjvwhr9b0gcc' --nnodes 2 --no_python --nproc_per_node
+              5 --node_rank '1' --tee 3 --role '' ./run_and_time.sh
+            envFrom:
+               - configMapRef:
+                   name: bertconfig
+            env:
+            - name: TORCHX_TRACKING_EXPERIMENT_NAME
+              value: default-experiment
+            - name: LOGLEVEL
+              value: WARNING
+            - name: TORCHX_JOB_ID
+              value: kubernetes_mcad://torchx/multinode-bert-zgsjvwhr9b0gcc
+            - name: TORCHX_MCAD_RUNANDTIME_0_HOSTS
+              value: multinode-bert-zgsjvwhr9b0gcc-0.multinode-bert-zgsjvwhr9b0gcc
+            image: docker.io/nikolovn79/bert_openshift_submission:latest
+            name: multinode-bert-zgsjvwhr9b0gcc-1
+            ports:
+            - containerPort: 29500
+              name: c10d
+            resources:
+              limits:
+                cpu: 64000m
+                memory: 24000M
+                nvidia.com/gpu: "5"
+              requests:
+                cpu: 63900m
+                memory: 22976M
+                nvidia.com/gpu: "5"
+            securityContext: {}
+            volumeMounts:
+            - mountPath: /dev/shm
+              name: dshm
+            - mountPath: /data
+              name: mount-1
+              readOnly: false
+          hostname: multinode-bert-zgsjvwhr9b0gcc-1
+          imagePullSecrets:
+          - {}
+          nodeSelector: {}
+          restartPolicy: Never
+          subdomain: multinode-bert-zgsjvwhr9b0gcc
+          volumes:
+          - emptyDir:
+              medium: Memory
+            name: dshm
+          - name: mount-1
+            persistentVolumeClaim:
+              claimName: delta-4125gs-pvc3
+      replicas: 1
+    - generictemplate:
+        apiVersion: v1
+        kind: Service
+        metadata:
+          labels:
+            app.kubernetes.io/instance: multinode-bert-zgsjvwhr9b0gcc
+            app.kubernetes.io/managed-by: torchx.pytorch.org
+            app.kubernetes.io/name: multinode-bert
+          name: multinode-bert-zgsjvwhr9b0gcc
+          namespace: openshift-local-storage
+        spec:
+          clusterIP: None
+          ports:
+          - port: 29500
+            protocol: TCP
+            targetPort: 29500
+          publishNotReadyAddresses: true
+          selector:
+            appwrapper.mcad.ibm.com: multinode-bert-zgsjvwhr9b0gcc
+          sessionAffinity: None
+          type: ClusterIP
+        status:
+          loadBalancer: {}
+      replicas: 1

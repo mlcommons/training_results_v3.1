@@ -1,0 +1,496 @@
++ echo 'Beginning trial 3 of 5'
+Beginning trial 3 of 5
++ echo ':::DLPAL dockerd://mlperf-dell:image_classification 94 2 xe9680node[30,70]  '\''unknown'\'' XE9680_multi_2x8x200'
+:::DLPAL dockerd://mlperf-dell:image_classification 94 2 xe9680node[30,70]  'unknown' XE9680_multi_2x8x200
++ srun -N1 -n1 --container-name=image_classification_94 --mpi=pmi2 python -c '
+from mlperf_log_utils import mllogger
+mllogger.mlperf_submission_log(mllogger.constants.RESNET, org="Dell", platform="XE9680x8H100-SXM-80GB")'
+:::MLLOG {"namespace": "", "time_ms": 1696295366760, "event_type": "POINT_IN_TIME", "key": "submission_benchmark", "value": "resnet", "metadata": {"file": "<string>", "lineno": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295366788, "event_type": "POINT_IN_TIME", "key": "submission_org", "value": "Dell", "metadata": {"file": "<string>", "lineno": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295366790, "event_type": "POINT_IN_TIME", "key": "submission_division", "value": "closed", "metadata": {"file": "<string>", "lineno": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295366791, "event_type": "POINT_IN_TIME", "key": "submission_status", "value": "onprem", "metadata": {"file": "<string>", "lineno": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295366792, "event_type": "POINT_IN_TIME", "key": "submission_platform", "value": "2xXE9680x8H100-SXM-80GB", "metadata": {"file": "<string>", "lineno": 3}}
++ '[' 1 -eq 1 ']'
++ srun --ntasks=2 --mpi=pmi2 bash -c 'echo -n '\''Clearing cache on '\'' && hostname && sync && sudo /sbin/sysctl vm.drop_caches=3'
+Clearing cache on xe9680node70
+Clearing cache on xe9680node30
+vm.drop_caches = 3
+vm.drop_caches = 3
++ srun --ntasks=2 --mpi=pmi2 --container-name=image_classification_94 python -c '
+from mlperf_log_utils import mllogger
+mllogger.event(key=mllogger.constants.CACHE_CLEAR, value=True)'
+:::MLLOG {"namespace": "", "time_ms": 1696295375746, "event_type": "POINT_IN_TIME", "key": "cache_clear", "value": true, "metadata": {"file": "<string>", "lineno": 3}}
++ export SEED=5960
++ SEED=5960
++ srun --kill-on-bad-exit=0 --mpi=pmi2 --ntasks=16 --ntasks-per-node=8 --container-name=image_classification_94 --container-mounts=/xe9680_nvme1n1/training_datasets_v3.0/mxnet_recordio:/data,/root/mlperf_training/resnet/:/results ./run_and_time.sh
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+running benchmark
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+running benchmark
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+running benchmark
+running benchmark
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+running benchmark
+running benchmark
+running benchmark
+running benchmark
+RN50 PARAMS:
+--gpus 0,1,2,3,4,5,6,7 --batch-size 200 --kv-store horovod --lr 11 --mom 0.9 --lr-step-epochs pow2 --lars-eta 0.001 --label-smoothing 0.1 --wd 5.0e-05 --warmup-epochs 2 --eval-period 4 --eval-offset 2 --optimizer sgdwfastlars --network resnet-v1b-fl --num-layers 50 --num-epochs 37 --accuracy-threshold 0.759 --seed 5960 --dtype float16 --disp-batches 20 --image-shape 4,224,224 --fuse-bn-relu 1 --fuse-bn-add-relu 1 --bn-group 1 --min-random-area 0.05 --max-random-area 1.0 --conv-algo 1 --force-tensor-core 1 --input-layout NHWC --conv-layout NHWC --batchnorm-layout NHWC --pooling-layout NHWC --batchnorm-mom 0.9 --batchnorm-eps 1e-5 --data-train /data/train.rec --data-train-idx /data/train.idx --data-val /data/val.rec --data-val-idx /data/val.idx --dali-dont-use-mmap 1 --dali-hw-decoder-load 0.99 --dali-prefetch-queue 3 --dali-nvjpeg-memory-padding 256 --input-batch-multiplier 1 --dali-threads 6 --dali-cache-size 42288 --dali-roi-decode 0 --dali-preallocate-width 5980 --dali-preallocate-height 6430 --dali-tmp-buffer-hint 355568328 --dali-decoder-buffer-hint 1315942 --dali-crop-buffer-hint 165581 --dali-normalize-buffer-hint 441549 --e2e-cuda-graphs 0 --use-nvshmem 0 --sustained_training_time 0 --use-dali
+\n
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+STARTING TIMING RUN AT 2023-10-03 01:09:36 AM
+running benchmark
+running benchmark
+running benchmark
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+num_gpus=8 num_sockets = 2 num_nodes=2 cores_per_socket=52
+:::MLLOG {"namespace": "", "time_ms": 1696295384151, "event_type": "INTERVAL_START", "key": "init_start", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 124}}
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+:::MLLOG {"namespace": "", "time_ms": 1696295389912, "event_type": "POINT_IN_TIME", "key": "seed", "value": 5960, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 186}}
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+[01:09:49] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for GPU
+NCCL version 2.18.5+cuda12.2
+:::MLLOG {"namespace": "", "time_ms": 1696295403177, "event_type": "POINT_IN_TIME", "key": "model_bn_span", "value": 200, "metadata": {"file": "/workspace/image_classification/common/dali.py", "lineno": 387}}
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+:::MLLOG {"namespace": "", "time_ms": 1696295416309, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "bn0_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416309, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "bn0_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416309, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "conv0_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416309, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 81, "tensor": "fc1_bias"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416309, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 71, "tensor": "fc1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit1_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit1_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit1_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit1_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit1_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit1_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416310, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit1_bnsc_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit1_bnsc_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit1_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit1_conv1sc_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit1_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit1_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit2_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit2_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416311, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit2_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit2_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit2_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit2_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit2_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit2_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit2_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit3_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416312, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit3_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit3_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit3_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage1_unit3_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage1_unit3_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit3_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit3_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage1_unit3_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416313, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit1_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit1_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit1_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit1_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit1_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit1_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit1_bnsc_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416314, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit1_bnsc_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit1_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit1_conv1sc_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit1_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit1_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit2_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit2_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit2_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit2_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416315, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit2_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit2_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit2_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit2_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit2_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit3_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit3_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit3_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416316, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit3_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit3_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit3_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit3_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit3_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit3_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit4_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit4_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416317, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit4_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit4_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage2_unit4_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage2_unit4_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit4_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit4_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage2_unit4_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit1_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416318, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit1_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit1_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit1_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit1_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit1_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit1_bnsc_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit1_bnsc_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416319, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit1_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit1_conv1sc_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit1_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit1_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit2_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit2_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit2_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit2_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416320, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit2_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit2_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit2_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit2_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit2_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit3_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit3_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit3_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit3_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416321, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit3_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit3_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit3_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit3_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit3_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit4_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit4_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit4_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416322, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit4_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit4_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit4_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit4_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit4_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit4_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit5_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416323, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit5_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit5_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit5_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit5_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit5_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit5_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit5_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit5_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416324, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit6_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit6_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit6_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit6_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage3_unit6_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage3_unit6_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit6_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit6_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416325, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage3_unit6_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit1_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit1_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit1_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit1_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit1_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit1_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit1_bnsc_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416326, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit1_bnsc_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit1_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit1_conv1sc_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit1_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit1_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit2_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit2_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit2_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416327, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit2_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit2_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit2_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit2_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit2_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit2_conv3_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit3_bn1_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit3_bn1_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416328, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit3_bn2_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit3_bn2_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 95, "tensor": "stage4_unit3_bn3_beta"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 88, "tensor": "stage4_unit3_bn3_gamma"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit3_conv1_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit3_conv2_weight"}}
+:::MLLOG {"namespace": "", "time_ms": 1696295416329, "event_type": "POINT_IN_TIME", "key": "weights_initialization", "value": null, "metadata": {"file": "/workspace/image_classification/train_imagenet.py", "lineno": 76, "tensor": "stage4_unit3_conv3_weight"}}
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:16] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+[01:10:17] /opt/mxnet/src/storage/storage.cc:196: Using Pooled (Naive) StorageManager for CPU
+:::MLLOG {"namespace": "", "time_ms": 1696295418099, "event_type": "POINT_IN_TIME", "key": "sgd_opt_learning_rate_decay_poly_power", "value": 2, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 707}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "sgd_opt_end_learning_rate", "value": 0.0001, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 708}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "lars_opt_learning_rate_decay_poly_power", "value": 2, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 709}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "lars_opt_end_learning_rate", "value": 0.0001, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 710}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "d_batch_size", "value": 200, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1170}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_optimizer", "value": "sgdwfastlars", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1171}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_network", "value": "resnet-v1b-fl", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1172}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_process", "value": "horovod", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1173}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "global_batch_size", "value": 3200, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1174}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_optimizer", "value": "sgdwfastlars", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1175}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_network", "value": "resnet-v1b-fl", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1176}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "s_process", "value": "horovod", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1177}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "gradient_accumulation_steps", "value": 1, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1178}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418100, "event_type": "POINT_IN_TIME", "key": "opt_name", "value": "lars", "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1184}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_epsilon", "value": 0, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1186}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_opt_weight_decay", "value": 5e-05, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1188}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_opt_momentum", "value": 0.9, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1190}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_opt_base_learning_rate", "value": 11.0, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1191}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_opt_learning_rate_warmup_epochs", "value": 2, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1192}}
+:::MLLOG {"namespace": "", "time_ms": 1696295418101, "event_type": "POINT_IN_TIME", "key": "lars_opt_learning_rate_decay_steps", "value": 37, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1193}}
+:::MLLOG {"namespace": "", "time_ms": 1696295446444, "event_type": "INTERVAL_END", "key": "init_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1338}}
+:::MLLOG {"namespace": "", "time_ms": 1696295446444, "event_type": "INTERVAL_START", "key": "run_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1338}}
+:::MLLOG {"namespace": "", "time_ms": 1696295446444, "event_type": "POINT_IN_TIME", "key": "train_samples", "value": 1281167, "metadata": {"file": "/workspace/image_classification/common/dali.py", "lineno": 566}}
+:::MLLOG {"namespace": "", "time_ms": 1696295448678, "event_type": "POINT_IN_TIME", "key": "eval_samples", "value": 49999, "metadata": {"file": "/workspace/image_classification/common/dali.py", "lineno": 590}}
+:::MLLOG {"namespace": "", "time_ms": 1696295448744, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 906, "first_epoch_num": 1, "epoch_count": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295448744, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 1}}
+:::MLLOG {"namespace": "", "time_ms": 1696295463304, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 1}}
+:::MLLOG {"namespace": "", "time_ms": 1696295463305, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 87988.53072830531}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 1}}
+:::MLLOG {"namespace": "", "time_ms": 1696295463305, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 2}}
+:::MLLOG {"namespace": "", "time_ms": 1696295476030, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 2}}
+:::MLLOG {"namespace": "", "time_ms": 1696295476031, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100675.85141614471}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 2}}
+:::MLLOG {"namespace": "", "time_ms": 1696295476031, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295488777, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295488777, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100510.30176108937}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295488806, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 3}}
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+WARNING:root:DALI iterator does not support resetting while epoch is not finished.                              Ignoring...
+:::MLLOG {"namespace": "", "time_ms": 1696295489250, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295489251, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.3349066981339627, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 3}}
+:::MLLOG {"namespace": "", "time_ms": 1696295489251, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 1}}
+:::MLLOG {"namespace": "", "time_ms": 1696295489251, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 4, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295489251, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295501925, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295501925, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101081.12240987335}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295501926, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 5}}
+:::MLLOG {"namespace": "", "time_ms": 1696295514628, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 5}}
+:::MLLOG {"namespace": "", "time_ms": 1696295514628, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100858.29288242887}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 5}}
+:::MLLOG {"namespace": "", "time_ms": 1696295514628, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 6}}
+:::MLLOG {"namespace": "", "time_ms": 1696295527370, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 6}}
+:::MLLOG {"namespace": "", "time_ms": 1696295527371, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100544.61764797015}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 6}}
+:::MLLOG {"namespace": "", "time_ms": 1696295527371, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540072, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540072, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100872.12904610074}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540100, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540291, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540291, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.4494089881797636, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 7}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540291, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540291, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 8, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295540291, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 8}}
+:::MLLOG {"namespace": "", "time_ms": 1696295552966, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 8}}
+:::MLLOG {"namespace": "", "time_ms": 1696295552966, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101081.41522697799}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 8}}
+:::MLLOG {"namespace": "", "time_ms": 1696295552966, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 9}}
+:::MLLOG {"namespace": "", "time_ms": 1696295565686, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 9}}
+:::MLLOG {"namespace": "", "time_ms": 1696295565687, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100717.53833528551}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 9}}
+:::MLLOG {"namespace": "", "time_ms": 1696295565687, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 10}}
+:::MLLOG {"namespace": "", "time_ms": 1696295578391, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 10}}
+:::MLLOG {"namespace": "", "time_ms": 1696295578391, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100844.92985886993}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 10}}
+:::MLLOG {"namespace": "", "time_ms": 1696295578391, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591134, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591134, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100542.98096641313}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591162, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591365, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591366, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.501310026200524, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 11}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591366, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 8}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591366, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 12, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295591366, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 12}}
+:::MLLOG {"namespace": "", "time_ms": 1696295604046, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 12}}
+:::MLLOG {"namespace": "", "time_ms": 1696295604047, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101031.79174605677}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 12}}
+:::MLLOG {"namespace": "", "time_ms": 1696295604047, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 13}}
+:::MLLOG {"namespace": "", "time_ms": 1696295616753, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 13}}
+:::MLLOG {"namespace": "", "time_ms": 1696295616753, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100831.76714708771}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 13}}
+:::MLLOG {"namespace": "", "time_ms": 1696295616753, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 14}}
+:::MLLOG {"namespace": "", "time_ms": 1696295629500, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 14}}
+:::MLLOG {"namespace": "", "time_ms": 1696295629500, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100507.63600618001}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 14}}
+:::MLLOG {"namespace": "", "time_ms": 1696295629500, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642214, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642214, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100766.68534509424}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642243, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642452, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642452, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.5804116082321646, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 15}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642452, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 12}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642452, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 16, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295642452, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 16}}
+:::MLLOG {"namespace": "", "time_ms": 1696295655123, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 16}}
+:::MLLOG {"namespace": "", "time_ms": 1696295655123, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101108.84868436477}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 16}}
+:::MLLOG {"namespace": "", "time_ms": 1696295655123, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 17}}
+:::MLLOG {"namespace": "", "time_ms": 1696295667855, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 17}}
+:::MLLOG {"namespace": "", "time_ms": 1696295667855, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100625.37593844434}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 17}}
+:::MLLOG {"namespace": "", "time_ms": 1696295667856, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 18}}
+:::MLLOG {"namespace": "", "time_ms": 1696295680552, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 18}}
+:::MLLOG {"namespace": "", "time_ms": 1696295680552, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100908.6195847122}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 18}}
+:::MLLOG {"namespace": "", "time_ms": 1696295680552, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693249, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693250, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100898.55287905784}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693278, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693470, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693471, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.6431728634572691, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 19}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693471, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 16}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693471, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 20, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295693471, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 20}}
+:::MLLOG {"namespace": "", "time_ms": 1696295706175, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 20}}
+:::MLLOG {"namespace": "", "time_ms": 1696295706175, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100848.48036782569}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 20}}
+:::MLLOG {"namespace": "", "time_ms": 1696295706175, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 21}}
+:::MLLOG {"namespace": "", "time_ms": 1696295718872, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 21}}
+:::MLLOG {"namespace": "", "time_ms": 1696295718873, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100898.17965567375}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 21}}
+:::MLLOG {"namespace": "", "time_ms": 1696295718873, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 22}}
+:::MLLOG {"namespace": "", "time_ms": 1696295731618, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 22}}
+:::MLLOG {"namespace": "", "time_ms": 1696295731619, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100515.54720651772}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 22}}
+:::MLLOG {"namespace": "", "time_ms": 1696295731619, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744310, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744310, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100950.6057354729}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744338, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744528, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744528, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.6894137882757655, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 23}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744528, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 20}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744528, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 24, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295744528, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 24}}
+:::MLLOG {"namespace": "", "time_ms": 1696295757202, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 24}}
+:::MLLOG {"namespace": "", "time_ms": 1696295757202, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101088.58787433706}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 24}}
+:::MLLOG {"namespace": "", "time_ms": 1696295757202, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 25}}
+:::MLLOG {"namespace": "", "time_ms": 1696295769941, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 25}}
+:::MLLOG {"namespace": "", "time_ms": 1696295769942, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100564.68543751755}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 25}}
+:::MLLOG {"namespace": "", "time_ms": 1696295769942, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 26}}
+:::MLLOG {"namespace": "", "time_ms": 1696295782651, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 26}}
+:::MLLOG {"namespace": "", "time_ms": 1696295782652, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100802.40942586638}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 26}}
+:::MLLOG {"namespace": "", "time_ms": 1696295782652, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795352, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795352, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100874.57557174936}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795381, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795584, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795584, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7280345606912139, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 27}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795585, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 24}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795585, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 28, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295795585, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 28}}
+:::MLLOG {"namespace": "", "time_ms": 1696295808293, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 28}}
+:::MLLOG {"namespace": "", "time_ms": 1696295808293, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100811.18601074332}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 28}}
+:::MLLOG {"namespace": "", "time_ms": 1696295808293, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 29}}
+:::MLLOG {"namespace": "", "time_ms": 1696295821013, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 29}}
+:::MLLOG {"namespace": "", "time_ms": 1696295821013, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100725.12199937348}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 29}}
+:::MLLOG {"namespace": "", "time_ms": 1696295821013, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 30}}
+:::MLLOG {"namespace": "", "time_ms": 1696295833714, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 30}}
+:::MLLOG {"namespace": "", "time_ms": 1696295833714, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100869.4876133312}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 30}}
+:::MLLOG {"namespace": "", "time_ms": 1696295833714, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846462, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846463, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100499.56252663229}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846491, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846696, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846696, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.749814996299926, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 31}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846696, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 28}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846696, "event_type": "INTERVAL_START", "key": "block_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1071, "first_epoch_num": 32, "epoch_count": 4}}
+:::MLLOG {"namespace": "", "time_ms": 1696295846696, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 32}}
+:::MLLOG {"namespace": "", "time_ms": 1696295859368, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 32}}
+:::MLLOG {"namespace": "", "time_ms": 1696295859368, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 101104.945012805}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 32}}
+:::MLLOG {"namespace": "", "time_ms": 1696295859368, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 33}}
+:::MLLOG {"namespace": "", "time_ms": 1696295872111, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 33}}
+:::MLLOG {"namespace": "", "time_ms": 1696295872111, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100542.3940315252}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 33}}
+:::MLLOG {"namespace": "", "time_ms": 1696295872111, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 34}}
+:::MLLOG {"namespace": "", "time_ms": 1696295884824, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 34}}
+:::MLLOG {"namespace": "", "time_ms": 1696295884824, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100775.09284628257}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 34}}
+:::MLLOG {"namespace": "", "time_ms": 1696295884824, "event_type": "INTERVAL_START", "key": "epoch_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 920, "epoch_num": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897531, "event_type": "INTERVAL_END", "key": "epoch_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 985, "epoch_num": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897531, "event_type": "POINT_IN_TIME", "key": "tracked_stats", "value": {"throughput": 100826.27486938432}, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1001, "step": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897559, "event_type": "INTERVAL_START", "key": "eval_start", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1019, "epoch_num": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897757, "event_type": "INTERVAL_END", "key": "eval_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1040, "epoch_num": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897757, "event_type": "POINT_IN_TIME", "key": "eval_accuracy", "value": 0.7596551931038621, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1043, "epoch_num": 35}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897757, "event_type": "INTERVAL_END", "key": "block_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1046, "first_epoch_num": 32}}
+:::MLLOG {"namespace": "", "time_ms": 1696295897757, "event_type": "INTERVAL_END", "key": "run_stop", "value": null, "metadata": {"file": "/workspace/image_classification/common/fit.py", "lineno": 1050, "status": "success", "epoch": 34}}
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:27 AM
+RESULT,IMAGE_CLASSIFICATION,,531,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:28 AM
+RESULT,IMAGE_CLASSIFICATION,,532,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:28 AM
+RESULT,IMAGE_CLASSIFICATION,,532,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:28 AM
+RESULT,IMAGE_CLASSIFICATION,,532,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:28 AM
+RESULT,IMAGE_CLASSIFICATION,,532,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:28 AM
+RESULT,IMAGE_CLASSIFICATION,,532,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:29 AM
+RESULT,IMAGE_CLASSIFICATION,,533,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:29 AM
+RESULT,IMAGE_CLASSIFICATION,,533,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:29 AM
+RESULT,IMAGE_CLASSIFICATION,,533,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:29 AM
+RESULT,IMAGE_CLASSIFICATION,,533,root,2023-10-03 01:09:36 AM
+ENDING TIMING RUN AT 2023-10-03 01:18:29 AM
+RESULT,IMAGE_CLASSIFICATION,,533,root,2023-10-03 01:09:36 AM

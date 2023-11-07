@@ -1,0 +1,78 @@
+set -eox pipefail
+
+
+SCRIPTS_DIR="$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" && pwd )"
+
+# cloud-tpu-v2-images is a public accessible account for images across different projects
+JAX_LIBTPU_IMAGE=${JAX_LIBTPU_IMAGE:-gcr.io/cloud-tpu-v2-images/pax-jax-libtpu:2023_09_14_final_sanitized}
+TIMESTAMP=$(date "+%Y%m%d-%H%M%S")
+TAG=${JAX_LIBTPU_IMAGE}-${USER}${TIMESTAMP}
+TMP_DIR=${TMP_DIR:-/tmp/docker}
+rm -rf "${TMP_DIR}" && mkdir -p "${TMP_DIR}"
+cp "${SCRIPTS_DIR}"/scripts/oss.Dockerfile "${TMP_DIR}"
+cp "${SCRIPTS_DIR}"/tools/env.sh "${TMP_DIR}"
+cp "${SCRIPTS_DIR}"/tools/parser_metrics.sh "${TMP_DIR}"
+cp "${SCRIPTS_DIR}"/scripts/pod_run.sh "${TMP_DIR}"
+
+pushd "${TMP_DIR}"
+sudo docker build \
+  --file oss.Dockerfile \
+  --tag "${TAG}" \
+  --build-arg JAX_LIBTPU_IMAGE="${JAX_LIBTPU_IMAGE}" \
+  --no-cache \
+  .
+popd
+sudo docker push "${TAG}"
+
+NUM_SLICES=${NUM_SLICES:-16}
+EXP_NAME=${EXP_NAME:-C4SpmdGpt3AdamDataParallel16x16x16Int8}
+
+TPU_TOPOLOGY=${TPU_TOPOLOGY:-16x16}
+NUM_CHIPS=$(( $(echo "${TPU_TOPOLOGY}" |  sed 's/x/*/g') ))
+
+NUM_CHIPS_PER_NODE=4
+NUM_NODES=$(( $NUM_CHIPS / $NUM_CHIPS_PER_NODE ))
+ACCELERATOR=tpu-v5-lite-podslice
+ACCELERATOR_TYPE=$(echo "${ACCELERATOR}" | awk -F"-" '{ print $2 }')
+IMAGE=${TAG}
+GS_PREFIX=mlperf-exp/submissions/${USER}/${EXP_NAME}/${NUM_SLICES}_${ACCELERATOR_TYPE}_${NUM_CHIPS}
+PAX_BRANCH=${PAX_BRANCH:-mlperf3.1/20230904}
+ENABLE_CHECKPOINT=${ENABLE_CHECKPOINT:-false}
+
+batch_size=$((NUM_SLICES*128))
+start_step=$((1536 * 4000 / batch_size))
+step_str=$(printf "%08d" ${start_step})
+CKP_INIT_PATH=gs://mlperf-exp/gpt3/checkpoints/checkpoint_"${step_str}"
+
+if [[ "${ENABLE_CHECKPOINT}" = true ]]; then
+  gsutil -m cp -r "${CKP_INIT_PATH}" gs://"${GS_PREFIX}"/job_log_dir/checkpoints/
+fi
+
+# replace placeholder in template CLIENT_YAML_FILE
+patterns=(
+   "<USER>" "${USER}"
+   "<NUM_SLICES>" "${NUM_SLICES}"
+   "<NUM_CHIPS>" "${NUM_CHIPS}"
+   "<NUM_NODES>" "${NUM_NODES}"
+   "<TPU_TOPOLOGY>" "${TPU_TOPOLOGY}"
+   "<EXP_NAME>" "${EXP_NAME}"
+   "<GS_PREFIX>" "${GS_PREFIX}"
+   "<NUM_CHIPS_PER_NODE>" "${NUM_CHIPS_PER_NODE}"
+   "<ACCELERATOR>" "${ACCELERATOR}"
+   "<ACCELERATOR_TYPE>" "${ACCELERATOR_TYPE}"
+   "<TIMESTAMP>" "${TIMESTAMP}"
+   "<IMAGE>" "${IMAGE}"
+   "<PAX_BRANCH>" "${PAX_BRANCH}"
+)
+
+sed_arg=$(
+  for ((i = 0; i < ${#patterns[@]}; i += 2)); do
+      # use "|" since "/" is in GS_PREFIX
+      echo -n "s|${patterns[i]}|${patterns[i+1]}|g;"
+  done
+)
+CLIENT_YAML_FILE="${SCRIPTS_DIR}/jobset_${NUM_SLICES}_${ACCELERATOR_TYPE}_${NUM_CHIPS}.yaml"
+cat "${SCRIPTS_DIR}"/scripts/jobset_template_oss.yaml | sed "$sed_arg" > "${CLIENT_YAML_FILE}"
+gsutil -m cp "${CLIENT_YAML_FILE}" gs://"${GS_PREFIX}"/
+
+kubectl apply -f "${CLIENT_YAML_FILE}"

@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod-unet3d
+  namespace: openshift-local-storage
+spec:
+  containers:
+    - name: mytestpod-unet3d
+      image: nvcr.io/nvdlfwea/mlperfv31/unet3d:20230913.mxnet
+      command: ["/bin/bash", "-ec", "tail -f /dev/null" ]
+      volumeMounts:
+      - mountPath: "/data"
+        name: dianepd6
+      - mountPath: /dev/shm
+        name: cache-volume
+      resources:
+        limits:
+          nvidia.com/gpu: 8
+  volumes:
+    - name: dianepd6
+      persistentVolumeClaim:
+        claimName: delta-4125gs-pvc3
+    - emptyDir:
+        medium: Memory
+        sizeLimit: 50Gi
+      name: cache-volume
+  imagePullSecrets:
+  - name: unet3dnode2
