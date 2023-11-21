@@ -62,8 +62,6 @@ cleanup_docker
 trap 'set -eux; cleanup_docker' EXIT
 
 # Setup container
-#docker run --gpus all --rm --init --detach \
-#docker run --gpus all --rm --shm-size=20g --init --detach -w /workspace/sd \
 docker run --gpus all --rm --init --detach -w /workspace/sd \
     --net=host --uts=host --ipc=host --security-opt=seccomp=unconfined \
     --ulimit=stack=67108864 --ulimit=memlock=-1 \
@@ -78,7 +76,6 @@ for _experiment_index in $(seq 1 "${NEXP}"); do
     (
         echo "Beginning trial ${_experiment_index} of ${NEXP}"
 
-        fi
 	
         if [ "${CLEAR_CACHES}" -eq 1 ]; then
             sync && sudo /sbin/sysctl vm.drop_caches=3
