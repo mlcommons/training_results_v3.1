@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Copyright © 2023 Dell Inc. or its subsidiaries.  All Rights Reserved.  Dell Technologies, 
+# Dell and other trademarks are trademarks of Dell Inc.  or its subsidiaries. 
+# Other trademarks may be trademarks of their respective owners."
+#
 # Copyright (c) 2018-2023, NVIDIA CORPORATION. All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
@@ -74,21 +78,7 @@ for _experiment_index in $(seq 1 "${NEXP}"); do
     (
         echo "Beginning trial ${_experiment_index} of ${NEXP}"
 
-        # Print system info
-#        docker exec -it "${_cont_name}" python -c "
-#import mlperf_logger
-#from mlperf_logging.mllog import constants
-#mlperf_logger.mlperf_submission_log()"
-
-        # Clear caches
-#        if [ "${CLEAR_CACHES}" -eq 1 ]; then
-#            sync && sudo /sbin/sysctl vm.drop_caches=3
-#            docker exec -it "${_cont_name}" python -c "
-#from mlperf_logging import mllog
-#from mlperf_logging.mllog.constants import CACHE_CLEAR
-#mllogger = mllog.get_mllogger()
-#mllogger.event(key=CACHE_CLEAR, value=True)"
-#        fi
+        fi
 	
         if [ "${CLEAR_CACHES}" -eq 1 ]; then
             sync && sudo /sbin/sysctl vm.drop_caches=3
@@ -98,14 +88,6 @@ mllogger = mllog.get_mllogger()
 mllogger.event(key=mllog.constants.CACHE_CLEAR, value=True)"
 	fi
 
-
-#        if [ "${CLEAR_CACHES}" -eq 1 ]; then
-#            sync && sudo /sbin/sysctl vm.drop_caches=3
-#            docker exec -it "${_cont_name}" python -c "
-#from mlperf_logging.mllog import constants
-#from mlperf_common.logging import mllog_event
-#mllog_event(key=constants.CACHE_CLEAR, value=True)"
-#        fi
 
         # Run experiment
         docker exec -it "${_config_env[@]}" "${_cont_name}" \
