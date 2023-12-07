@@ -63,7 +63,7 @@ RUN ln -s /usr/lib/x86_64-linux-gnu/libibverbs.so.1.14.39.0 /usr/lib/x86_64-linu
 WORKDIR /workspace/dlrm
 COPY . .
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+RUN pip3 install --no-cache-dir --no-build-isolation -r requirements.txt
 
 # FIXME: Temporal workaround to make HugeCTR compile correctly
 #  for the latest PyT base image (following conda removal):
