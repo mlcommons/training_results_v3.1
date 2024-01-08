@@ -117,9 +117,6 @@ RUN if [ "${MEGATRON_REVISION}" != SKIP ]; then \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# JET
-RUN pip install jet-api --upgrade --extra-index-url https://sc-hw-artf.nvidia.com/api/pypi/hw-joc-pypi/simple --extra-index-url https://sc-hw-artf.nvidia.com/api/pypi/compute-pypi/simple
-
 # Benchmark code
 WORKDIR /workspace/llm
 
