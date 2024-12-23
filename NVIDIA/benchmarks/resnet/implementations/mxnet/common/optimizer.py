@@ -48,7 +48,8 @@ from mxnet.ndarray import sparse
 #####
 
 from mxnet import cuda_utils as cu
-from scaleoutbridge import ScaleoutBridge as SBridge
+# from scaleoutbridge import ScaleoutBridge as SBridge
+from mlperf_common.scaleoutbridge import ScaleoutBridgeBase as SBridge
 
 from common.data import SyntheticDataIter
 

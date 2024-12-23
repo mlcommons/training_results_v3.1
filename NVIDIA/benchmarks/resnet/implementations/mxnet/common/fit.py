@@ -53,7 +53,9 @@ import cuda_graphs.graph_wrapper as graph_wrapper
 
 from common.data import SyntheticDataIter
 
-from scaleoutbridge import init_bridge, ScaleoutBridge as SBridge
+# from scaleoutbridge import init_bridge, ScaleoutBridge as SBridge
+from mlperf_common.scaleoutbridge import init_bridge, ScaleoutBridgeBase as SBridge
+from mlperf_common.frameworks.mxnet import MXNetProfilerHandler, MPICommunicationHandler
 
 TRAIN_CUDA_GRAPH_ID = 0
 
@@ -907,7 +909,8 @@ def mlperf_fit(self, args, train_data,
         key=mllogger.constants.BLOCK_START,
         metadata={'first_epoch_num': block_epoch_start + 1, 'epoch_count': block_epoch_count})
 
-    sbridge = init_bridge(hvd.rank())
+    #sbridge = init_bridge(hvd.rank())
+    sbridge = init_bridge(MXNetProfilerHandler(), MPICommunicationHandler(), mllogger)
 
     ################################################################################
     # training loop with dali overlap with fwd
