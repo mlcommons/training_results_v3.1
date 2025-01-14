@@ -70,7 +70,13 @@ cleanup_docker
 trap 'set -eux; cleanup_docker' EXIT
 
 # Setup container
-nvidia-docker run --rm --init --detach \
+if [ -z "${NV_GPU-}" ]; then
+  readonly _docker_gpu_args="--gpus all"
+else
+  readonly _docker_gpu_args='--gpus="'device=${NV_GPU}'" -e NVIDIA_VISIBLE_DEVICES='"${NV_GPU}"
+fi
+
+docker run ${_docker_gpu_args} --rm --init --detach \
     --net=host --uts=host --ipc=host --security-opt=seccomp=unconfined \
     --ulimit=stack=67108864 --ulimit=memlock=-1 \
     --name="${_cont_name}" "${_cont_mounts[@]}" \

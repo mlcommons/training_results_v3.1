@@ -91,3 +91,15 @@ PARSER.add_argument('--use_cached_loader', '-ucl', dest='use_cached_loader', act
 PARSER.add_argument('--stick_to_shard', '-sts', dest='stick_to_shard', action='store_true', default=False)
 
 PARSER.add_argument('--use_nvshmem', dest='use_nvshmem', action='store_true', default=False)
+
+## Additional arguments passed
+PARSER.add_argument('--dense_seq_output', action='store_true', help='Enable dense sequential output')
+PARSER.add_argument('--pad_fmha', action='store_true', help='Enable padding for FMHA')
+PARSER.add_argument('--fused_bias_fc', action='store_true', help='Enable fused bias for FC')
+PARSER.add_argument('--fused_bias_mha', action='store_true', help='Enable fused bias for MHA')
+PARSER.add_argument('--fused_dropout_add', action='store_true', help='Enable fused dropout and add')
+PARSER.add_argument('--fused_gemm_gelu', action='store_true', help='Enable fused GEMM and GELU')
+PARSER.add_argument('--packed_samples', action='store_true', help='Enable packed samples')
+PARSER.add_argument('--use_transformer_engine2', action='store_true', help='Enable transformer engine v2')
+PARSER.add_argument('--cuda_graph_mode', type=str, help='CUDA graph mode')
+PARSER.add_argument('--use_cuda_graph', action='store_true', help='Use CUDA graph')
